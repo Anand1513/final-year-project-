@@ -224,10 +224,17 @@ Future research directions include:
 ---
 
 ## References
-1. Lundberg, S. M., & Lee, S.-I. (2017). A unified approach to interpreting model predictions. *Advances in Neural Information Processing Systems (NeurIPS 2017)*, 4765-4774.
-2. Ribeiro, M. T., Singh, S., & Guestrin, C. (2016). "Why should I trust you?": Explaining the predictions of any classifier. *Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD 2016)*, 1135-1144.
-3. Wolfert, S., Ge, L., Verdouw, J., & Bogaardt, M. J. (2017). Big data in agriculture: A review. *Agricultural Systems*, 153, 69-80.
-4. Breiman, L. (2001). Random forests. *Machine Learning*, 45(1), 5-32.
-5. Chen, T., & Guestrin, C. (2016). XGBoost: A scalable tree boosting system. *Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD 2016)*, 785-794.
-6. Ke, G., Meng, Q., Finley, T., Wang, T., Chen, W., Ma, W., ... & Liu, T. Y. (2017). LightGBM: A highly efficient gradient boosting decision tree. *Advances in Neural Information Processing Systems (NeurIPS 2017)*, 3146-3154.
-7. Prokhorenkova, L., Gusev, G., Vorobev, A., Dorogush, A. V., & Gulin, A. (2018). CatBoost: unbiased boosting with categorical features. *Advances in Neural Information Processing Systems (NeurIPS 2018)*, 6638-6648.
+1. Lundberg, S. M., & Lee, S.-I. (2017). A unified approach to interpreting model predictions. *Advances in Neural Information Processing Systems (NeurIPS 2017)*, 4765-4774. [Link](https://proceedings.neurips.cc/paper/2017/hash/8a234b145b2ad8120d77d9f2c8d2e0fa-Abstract.html)
+2. Ribeiro, M. T., Singh, S., & Guestrin, C. (2016). "Why should I trust you?": Explaining the predictions of any classifier. *Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD 2016)*, 1135-1144. [Link](https://dl.acm.org/doi/10.1145/2939672.2939778)
+3. Wolfert, S., Ge, L., Verdouw, J., & Bogaardt, M. J. (2017). Big data in agriculture: A review. *Agricultural Systems*, 153, 69-80. [Link](https://doi.org/10.1016/j.agsy.2017.01.023)
+4. Breiman, L. (2001). Random forests. *Machine Learning*, 45(1), 5-32. [Link](https://doi.org/10.1023/A:1010933404324)
+5. Chen, T., & Guestrin, C. (2016). XGBoost: A scalable tree boosting system. *Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD 2016)*, 785-794. [Link](https://dl.acm.org/doi/10.1145/2939672.2939785)
+6. Ke, G., Meng, Q., Finley, T., Wang, T., Chen, W., Ma, W., ... & Liu, T. Y. (2017). LightGBM: A highly efficient gradient boosting decision tree. *Advances in Neural Information Processing Systems (NeurIPS 2017)*, 3146-3154. [Link](https://proceedings.neurips.cc/paper/2017/hash/6449f44a102fde848669bdd9eb6b76fa-Abstract.html)
+7. Prokhorenkova, L., Gusev, G., Vorobev, A., Dorogush, A. V., & Gulin, A. (2018). CatBoost: unbiased boosting with categorical features. *Advances in Neural Information Processing Systems (NeurIPS 2018)*, 6638-6648. [Link](https://proceedings.neurips.cc/paper/2018/hash/14491b756b3a51da4061b6ad1140523e-Abstract.html)
+8. Kumar, R., Singh, M. P., Kumar, P., & Singh, J. P. (2018). Crop recommendation system using machine learning algorithms. *2018 Fifth International Conference on Parallel, Distributed and Grid Computing (PDGC)*, 852-857. [Link](https://ieeexplore.ieee.org/document/8524220)
+9. Pudumalar, S., Ramanujam, E., Harines, R. H., Kavya, C., Kiruthika, S., & Nisha, J. (2017). Precision agriculture: Crop recommendation system using policy table. *2016 International Conference on Symposium on Colossal Data Analysis and Networking (CDAN)*, 1-6. [Link](https://ieeexplore.ieee.org/document/8081313)
+10. Rajak, S., Dharavath, R., & Kumar, R. (2017). Crop recommendation system to maximize crop yield using machine learning technique. *2017 International Conference on Information Technology (ICIT)*, 221-226. [Link](https://ieeexplore.ieee.org/document/8212776)
+11. Lundberg, S. M., Erion, G., Chen, H., DeGrave, A., Prutkin, J. M., Nair, B., ... & Lee, S. I. (2020). From local explanations to global understanding with explainable AI for trees. *Nature Machine Intelligence*, 2(1), 56-67. [Link](https://www.nature.com/articles/s42256-019-0138-9)
+12. Kamilaris, A., & Prenafeta-Boldú, F. X. (2018). Deep learning in agriculture: A survey. *Computers and Electronics in Agriculture*, 147, 70-90. [Link](https://doi.org/10.1016/j.compag.2018.02.016)
+13. Shafi, U., Mumtaz, R., García-Nieto, J., Ali, S. A., Zaidi, S. A. R., & Iqbal, M. (2019). Precision agriculture techniques and machine learning algorithms: A survey. *IEEE Access*, 7, 135402-135419. [Link](https://ieeexplore.ieee.org/document/8839077)
+

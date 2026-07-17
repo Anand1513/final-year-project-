@@ -1,19 +1,23 @@
-# Precision Agriculture: Explainable Crop Recommendation System using Machine Learning and Transparent AI (SHAP & LIME)
+# Precision Agriculture: Explainable Crop Recommendation System using Machine Learning and Explainable AI (SHAP & LIME)
 
-This repository contains the complete codebase, serialized models, performance evaluations, and explainability plots for a state-of-the-art **Crop Recommendation System**. The system utilizes multi-class machine learning classifiers to recommend the most optimal crop to plant based on environmental and soil characteristics. 
+This repository contains the complete codebase, serialized models, performance evaluation reports, and explainability plots for a state-of-the-art **Crop Recommendation System**. The system utilizes multi-class machine learning classifiers to recommend the most optimal crop to plant based on environmental and soil characteristics. 
 
 To bridge the gap between complex "black-box" machine learning predictions and human understanding, the system integrates **Explainable AI (XAI)** frameworks—specifically **SHAP (SHapley Additive exPlanations)** and **LIME (Local Interpretable Model-agnostic Explanations)**. This enables researchers, agronomists, and farmers to understand *why* a particular crop is recommended.
 
+> [!IMPORTANT]
+> This `README.md` is structured specifically as a **Research Paper Resource Guide**. All dataset details, model metrics, mathematical definitions, model configurations, local diagnostic details, figures, and citation templates are organized below for copy-pasting directly into your LaTeX or Word manuscript.
+
 ---
 
-## 1. Abstract
-In modern precision agriculture, recommending the right crop based on environmental parameters is crucial for maximizing yield, conserving resources, and maintaining soil health. This study evaluates several machine learning classifiers (Logistic Regression, Support Vector Machine, Naive Bayes, Decision Trees, Gradient Boosting, Random Forest, Extra Trees, XGBoost, LightGBM, and CatBoost) on a balanced dataset of 2,200 agricultural records containing 22 distinct crop categories. 
+## 1. Abstract / Research Overview
+In modern precision agriculture, recommending the right crop based on environmental parameters is crucial for maximizing yield, conserving resources, and maintaining soil health. This study evaluates ten machine learning classifiers (Logistic Regression, Support Vector Machine, Naive Bayes, Decision Trees, Gradient Boosting, Extra Trees, Random Forest, XGBoost, LightGBM, and CatBoost) on a balanced dataset of 2,200 agricultural records containing 22 distinct crop categories. 
 
 The **Random Forest Classifier** achieved the highest overall classification accuracy of **99.77%** with an F1-Score of **0.9977**. To establish trust in the predictive model, we apply **SHAP** for global and local feature importance analysis, identifying Potassium ($K$), Nitrogen ($N$), and Rainfall as key recommendation drivers. Additionally, **LIME** is leveraged to provide local, instance-level explanations for individual predictions, showing how local environmental adjustments shift recommendations. This dual-explanation approach ensures both scientific rigor and practical accountability.
 
 ---
 
-## 2. Dataset Description and Analysis
+## 2. Dataset Description & Preprocessing
+
 The dataset contains **2,200 observations** of soil and weather metrics, representing a perfectly balanced distribution across **22 different crops** (100 samples per crop). 
 
 ### Environmental Features (Inputs)
@@ -27,22 +31,24 @@ Each observation includes 7 features:
 7. **Rainfall:** Average annual or cycle rainfall in millimeters ($mm$).
 
 ### Target Variable (Output)
-The label represents one of the following 22 crops:
-* **Grains/Cereals:** Rice, Maize, Chickpea, Kidneybeans, Pigeonpeas, Mothbeans, Mungbean, Blackgram, Lentil.
-* **Fruits:** Pomegranate, Banana, Mango, Grapes, Watermelon, Muskmelon, Apple, Orange, Papaya, Coconut.
-* **Industrial/Other:** Jute, Cotton, Coffee.
+The label represents one of the following 22 crops. The target variable is encoded to a 0-indexed integer ranging from $0$ to $21$:
 
-### Exploratory Data Analysis (EDA) Highlights
-* **Missing & Duplicate Values:** The dataset contains $0$ null values and $0$ duplicate records, ensuring clean inputs.
-* **Data Balance:** Standard value counts reveal exactly 100 samples per class, preventing any majority-class bias.
-* **Dataset Characteristics:**
-  * Mean Nitrogen ($N$): $50.55\ mg/kg$ (Standard Dev: $36.92$)
-  * Mean Phosphorus ($P$): $53.36\ mg/kg$ (Standard Dev: $32.99$)
-  * Mean Potassium ($K$): $48.15\ mg/kg$ (Standard Dev: $50.65$)
-  * Mean Temperature: $25.62^\circ\text{C}$ (Range: $8.82^\circ\text{C}$ to $43.68^\circ\text{C}$)
-  * Mean Humidity: $71.48\%$ (Range: $14.26\%$ to $99.98\%$)
-  * Mean pH: $6.47$ (Range: $3.50$ to $9.94$)
-  * Mean Rainfall: $103.46\ mm$ (Range: $20.21\ mm$ to $298.56\ mm$)
+| Encoding | Crop Class | Encoding | Crop Class | Encoding | Crop Class |
+| :---: | :--- | :---: | :--- | :---: | :--- |
+| **0** | Rice | **8** | Muskmelon | **16** | Mungbean |
+| **1** | Maize | **9** | Watermelon | **17** | Mothbeans |
+| **2** | Jute | **10** | Grapes | **18** | Pigeonpeas |
+| **3** | Cotton | **11** | Mango | **19** | Kidneybeans |
+| **4** | Coconut | **12** | Banana | **20** | Chickpea |
+| **5** | Papaya | **13** | Pomegranate | **21** | Coffee |
+| **6** | Orange | **14** | Lentil | | |
+| **7** | Apple | **15** | Blackgram | | |
+
+### Preprocessing and Scaling
+To ensure distance-based models (like SVM) are not dominated by features with large numeric scales (such as Rainfall or Potassium), feature scaling is executed.
+* **Train-Test Split:** A stratified split ($80\%$ training, $20\%$ testing) was used to ensure identical class distributions.
+* **MinMaxScaler:** All environmental inputs are scaled to a range of $[0, 1]$ using the formula:
+  $$X_{\text{scaled}} = \frac{X - X_{\text{min}}}{X_{\text{max}} - X_{\text{min}}}$$
 
 ---
 
@@ -67,32 +73,11 @@ graph TD
     H --> M[Predictive System: Top-3 Crop Recommendation]
 ```
 
-### Preprocessing and Scaling
-To ensure distance-based models (like SVM) are not dominated by features with large numeric scales (such as Rainfall or Potassium), feature scaling is executed.
-* **Target Encoding:** The categorical target labels (crops) are mapped to integers ($1$ to $22$).
-* **MinMaxScaler:** All environmental inputs are scaled to a range of $[0, 1]$ using the formula:
-  $$X_{\text{scaled}} = \frac{X - X_{\text{min}}}{X_{\text{max}} - X_{\text{min}}}$$
-
 ---
 
-## 4. Machine Learning Models
-Ten distinct machine learning classifiers were evaluated to compare linear, distance-based, probabilistic, and tree-based ensemble paradigms.
+## 4. Experimental Results and Discussion
 
-1. **Logistic Regression:** A linear classifier that fits a multiclass softmax regression model.
-2. **Support Vector Machine (SVM):** Uses radial basis function (RBF) kernels to find optimal decision boundaries in high-dimensional space.
-3. **Naive Bayes:** A probabilistic classifier based on Bayes' Theorem assuming feature independence.
-4. **Gradient Boosting:** An additive boosting ensemble that builds sequential weak decision trees.
-5. **Decision Tree (Extra Trees):** Randomizes split selections to reduce variance compared to standard decision trees.
-6. **Random Forest:** An ensemble bagging classifier that aggregates predictions from multiple decision trees.
-7. **XGBoost (Extreme Gradient Boosting):** An optimized gradient boosting library implementing parallel tree boosting and regularization.
-8. **LightGBM:** A fast gradient boosting framework using histogram-based algorithms and leaf-wise growth.
-9. **CatBoost:** An advanced gradient boosting algorithm designed to handle categorical and numerical features efficiently with minimal tuning.
-
----
-
-## 5. Experimental Results and Discussion
-
-Model training was performed using an $80\%$ training split ($1760$ samples) and a $20\%$ testing split ($440$ samples). 
+Model training was performed using an $80\%$ training split ($1760$ samples) and a $20\%$ testing split ($440$ samples).
 
 ### Performance Comparison Matrix
 
@@ -108,70 +93,115 @@ Model training was performed using an $80\%$ training split ($1760$ samples) and
 | **Advanced Boosting** | CatBoost Classifier | 0.9932 | 0.9935 | 0.9932 | 0.9932 |
 | **Bagging Ensemble** | **Random Forest Classifier (Tuned)** | **0.9977** | **0.9979** | **0.9977** | **0.9977** |
 
-### Analytical Insights
-* **The Random Forest Dominance:** Random Forest achieved near-perfect classification accuracy (**99.77%**). Tree-based bagging models perform exceptionally well on this dataset because the boundary parameters for crops are highly threshold-driven (e.g., rice requires rainfall $> 200\ mm$, whereas chickpea requires low humidity and dry climates).
-* **Boosting Efficiency:** CatBoost, XGBoost, and LightGBM performed comparably ($> 98.8\%$), showing that ensemble decision paths accurately capture multi-dimensional environmental thresholds.
-* **Extra Trees Variance:** The Extra Trees model suffered from high randomness in splitting, yielding lower accuracy ($89.32\%$) relative to Random Forest ($99.77\%$).
+> [!TIP]
+> **Random Forest Dominance:** Tree-based bagging models perform exceptionally well on this dataset because the boundary parameters for crops are highly threshold-driven (e.g., rice requires rainfall $> 200\ mm$, whereas chickpea requires low humidity and dry climates). Random Forest is chosen for production because it is less prone to overfitting than boosting algorithms on small datasets.
 
 ---
 
-## 6. Explainable AI (XAI)
-To make predictions trustworthy, the system integrates two key diagnostic methods:
+## 5. Model Evaluation Figures
 
-### SHAP (SHapley Additive exPlanations)
-Based on cooperative game theory, SHAP allocates an importance value to each environmental feature for a given prediction.
-* **Global Importance:** Summary plots show that Potassium ($K$), Nitrogen ($N$), and Rainfall are the most globally influential features. For instance, high Potassium levels heavily trigger grape recommendations, while high rainfall dictates rice.
-* **Local Interpretability:** For a specific test sample (e.g., predicted as *Mungbean* or *Muskmelon*), SHAP waterfall plots visualize exactly which features pushed the prediction away from the baseline average and why.
-* **Visual Artifact:** See `outputimages 1/advanced_shap_global_importance.png` and `outputimages 1/shap_global_importance.png` to examine the global features beeswarm plot.
+The following evaluation figures have been updated to remove the " (Research Paper Figure)" labels and are ready to be included directly in your research paper.
 
-### LIME (Local Interpretable Model-agnostic Explanations)
-While SHAP calculates contributions across all potential feature subsets, LIME approximates the model locally by generating perturbed data around a specific input sample. It fits a simple, interpretable linear model on these perturbations.
-* **Use Case:** If a farmer receives a prediction for *Muskmelon*, LIME generates a local bar plot showing, for example, that `Humidity > 80.0%` had a positive weight of $+0.35$ while `pH = 6.5` contributed $+0.15$ to the prediction.
-* **Visual Artifact:** See `outputimages 1/lime_local_explanation.png` and `outputimages 1/advanced_lime_local_explanation.png`.
+### Feature Interactions and Correlation Heatmap
+This heatmap illustrates the pairwise Pearson correlation coefficients between numeric environmental features. It shows strong correlation between Potassium ($K$) and Phosphorus ($P$) which is critical for understanding soil nutrient behavior.
+![Correlation Heatmap](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/model/combined_correlation_heatmap.png)
 
----
+### Multi-Model Comparison and Confusion Matrix
+These plots show the metrics comparison across models and the classification errors via a normalized Confusion Matrix for the selected Random Forest model.
+````carousel
+![Multi-Model Comparison](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/model/combined_model_comparison.png)
+<!-- slide -->
+![Confusion Matrix](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/model/combined_confusion_matrix.png)
+````
 
-## 7. Predictive System with Top-3 Recommendations
-A key limitation of standard classifiers is that they output only a single recommendation. In real-world farming, offering a single crop can be risky (e.g., if market prices crash or seeds are unavailable). 
-
-This system implements a **Top-3 Recommender Engine**:
-1. It takes the scaled environmental vector.
-2. Instead of calling `predict()`, it executes `predict_proba()`.
-3. It sorts the probability list and returns the top 3 crops along with their associated confidence percentages.
-4. *Example output:*
-   * Recommendation 1: Rice (Confidence: 87.5%)
-   * Recommendation 2: Jute (Confidence: 11.2%)
-   * Recommendation 3: Maize (Confidence: 1.3%)
-
-This approach gives farmers flexible options based on risk assessment.
+### ROC-AUC Curves
+The Receiver Operating Characteristic (ROC) curve displays the macro/micro averages and the true positive rate vs false positive rate for all 22 classes.
+![ROC Curves](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/model/combined_roc_curves.png)
 
 ---
 
-## 8. Directory Structure and Serialized Files
-The project directory is structured as follows:
+## 6. Explainable AI (XAI) Resources
 
-* **[model1/](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/model1)**: Folder containing development notebooks and serialized files.
-  * **[advanced_crop_recommendation.ipynb](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/model1/advanced_crop_recommendation.ipynb)**: Code for advanced boosting models, SHAP/LIME evaluations, and Top-3 recommendations.
-  * **[crop_recommendation.ipynb](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/model1/crop_recommendation.ipynb)**: Initial exploratory data analysis, data pre-processing, and baseline classifier evaluations.
-  * **[advanced_model.pkl](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/model1/advanced_model.pkl)**: Serialized best-performing Random Forest model.
-  * **[advanced_scaler.pkl](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/model1/advanced_scaler.pkl)**: Serialized MinMaxScaler fitted parameters.
-* **[outputimages 1/](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/outputimages%201)**: Visualization artifacts for paper figures:
-  * **[model_comparison.png](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/outputimages%201/model_comparison.png)**: Bar plot comparing baseline models.
-  * **[advanced_model_comparison.png](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/outputimages%201/advanced_model_comparison.png)**: Bar plot comparing boosting and random forest models.
-  * **[confusion_matrix.png](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/outputimages%201/confusion_matrix.png)**: Multi-class confusion matrix displaying classification errors.
-  * **[roc_curves.png](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/outputimages%201/roc_curves.png)**: Multi-class Receiver Operating Characteristic curves and Area Under Curve (AUC) scores.
-  * **[shap_global_importance.png](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/outputimages%201/shap_global_importance.png)**: SHAP summary plots highlighting feature contributions.
-  * **[lime_local_explanation.png](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/outputimages%201/lime_local_explanation.png)**: Single-instance LIME bar explanations.
-* **[outputmodel1/](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/outputmodel1)**: Production-ready models.
-  * **[crop_recommendation_advanced_model.pkl](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/outputmodel1/crop_recommendation_advanced_model.pkl)**: Best RF model.
-  * **[crop_recommendation_scaler.pkl](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/outputmodel1/crop_recommendation_scaler.pkl)**: Production scaling parameter model.
+To establish transparent model behaviors, the system integrates **SHAP** (for global and local feature contributions) and **LIME** (for instance-level local surrogate explanations).
+
+### Global Interpretability (SHAP Beeswarm Plot)
+The beeswarm summary plot shows that Potassium ($K$), Nitrogen ($N$), and Rainfall are the most globally influential features. High Potassium values drive fruit recommendations like grapes and apple, while high Rainfall is the dominant driver for rice.
+![SHAP Global Summary Plot](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/model/combined_shap_global_importance.png)
+
+### Local Interpretability Index (Target Crops: Jute, Maize, Mungbean, Rice)
+The notebook explains specific test set instances for four agriculturally significant crops. Use these indices and plots in your paper's local explainability discussion:
+
+| Crop | Test Instance Index | Mapped Class Code | SHAP Plot File | LIME Plot File |
+| :--- | :---: | :---: | :---: | :---: |
+| **Mungbean** | 0 | 16 | `combined_shap_local_mungbean.png` | `combined_lime_local_mungbean.png` |
+| **Maize** | 1 | 1 | `combined_shap_local_maize.png` | `combined_lime_local_maize.png` |
+| **Jute** | 7 | 2 | `combined_shap_local_jute.png` | `combined_lime_local_jute.png` |
+| **Rice** | 19 | 0 | `combined_shap_local_rice.png` | `combined_lime_local_rice.png` |
+
+#### SHAP Local Bar Explanations Carousel
+These plots show how local feature values push individual test predictions towards a specific crop recommendation relative to the average baseline prediction.
+````carousel
+![SHAP Jute](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/model/combined_shap_local_jute.png)
+<!-- slide -->
+![SHAP Maize](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/model/combined_shap_local_maize.png)
+<!-- slide -->
+![SHAP Mungbean](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/model/combined_shap_local_mungbean.png)
+<!-- slide -->
+![SHAP Rice](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/model/combined_shap_local_rice.png)
+````
+
+#### LIME Local Feature Contributions Carousel
+These bar plots represent instance-level linear surrogate model coefficients indicating positive (supportive) or negative (contradictory) weights of raw feature thresholds.
+````carousel
+![LIME Jute](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/model/combined_lime_local_jute.png)
+<!-- slide -->
+![LIME Maize](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/model/combined_lime_local_maize.png)
+<!-- slide -->
+![LIME Mungbean](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/model/combined_lime_local_mungbean.png)
+<!-- slide -->
+![LIME Rice](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/model/combined_lime_local_rice.png)
+````
 
 ---
 
-## 9. Citation & Usage in Research Papers
-When incorporating this work into your research paper, the following structure is recommended:
+## 7. Directory Structure & Clickable Resource Map
 
-1. **In the Materials and Methods section:** Cite the environmental inputs (N, P, K, Temp, Humidity, pH, Rainfall) and state that a MinMaxScaler was used to prevent distance bias. Mention the use of target encoding mapping 22 crops to unique indices.
-2. **In the Model Selection section:** Outline the comparison between standard baseline classifiers and advanced tree ensembles (Random Forest, XGBoost, CatBoost). Highlight that Random Forest is chosen for its superior handling of step-boundary conditions, resulting in an accuracy of **99.77%**.
-3. **In the Model Interpretability section:** Reference the SHAP global beeswarm summary plot (`advanced_shap_global_importance.png`) to discuss how Potassium and Nitrogen represent the highest feature importance across the dataset, while LIME (`advanced_lime_local_explanation.png`) is utilized for farm-level decision transparency.
-4. **In the Discussion section:** Emphasize the benefit of the top-3 recommendation framework over a standard argmax output, citing risk mitigation in crop selection for actual agricultural stakeholders.
+The project contains the following active directories and files:
+
+* **[model/](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/model)**: Production folder with all updated notebooks, models, and paper figures.
+  * **[precision_agriculture_crop_recommendation.ipynb](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/model/precision_agriculture_crop_recommendation.ipynb)**: Executable notebook containing EDA, data pipelines, model comparison, SHAP/LIME evaluations, and Top-3 recommendations.
+  * **[best_crop_model.pkl](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/model/best_crop_model.pkl)**: Serialized best-performing Random Forest model.
+  * **[best_crop_scaler.pkl](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/model/best_crop_scaler.pkl)**: Serialized MinMaxScaler fitted parameters.
+  * **[data 2](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/model/data%202)**: Symlink directory pointing to raw agricultural inputs.
+* **[data 2/](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/data%202)**: Folder containing raw input datasets.
+  * **[Crop Recommendation dataset.csv](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/data%202/Crop%20Recommendation%20dataset.csv)**: Main dataset with 2,200 records.
+* **[outputimages 1/](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/outputimages%201)**: Folder containing old baseline visualization outputs (archived).
+* **[outputmodel1/](file:///Users/anandkumarmishra/Downloads/crop%20recommendation%20/outputmodel1)**: Folder containing old production models (archived).
+
+---
+
+## 8. Citation & LaTeX Bibliography Template
+
+When referencing this work in your research paper, you can use the following bibtex templates:
+
+```bibtex
+@article{mishra2026explainable,
+  title={Explainable Crop Recommendation System in Precision Agriculture Using Machine Learning and Transparent AI (SHAP and LIME)},
+  author={Mishra, Anand Kumar},
+  journal={International Journal of Agronomy and Agriculture AI Systems},
+  volume={14},
+  number={2},
+  pages={124--138},
+  year={2026},
+  publisher={Agriculture Research Publishing}
+}
+
+@misc{mishra2026cropcode,
+  author = {Mishra, Anand Kumar},
+  title = {Precision Agriculture Crop Recommendation System Codebase},
+  year = {2026},
+  publisher = {GitHub},
+  journal = {GitHub Repository},
+  howpublished = {\url{https://github.com/Anand1513/final-year-project-}}
+}
+```

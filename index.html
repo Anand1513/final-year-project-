@@ -36,6 +36,7 @@
                 <a href="#overview" class="nav-link">Research</a>
                 <a href="#recommendation" class="nav-link">Prototype Model</a>
                 <a href="#academic" class="nav-link">Contributions</a>
+                <a href="#team" class="nav-link">Project Team</a>
                 <button id="viva-mode-btn" class="btn btn-outline">Presentation Mode</button>
             </div>
             <div class="mobile-menu-btn">
@@ -202,31 +203,31 @@
                                 <div class="terminal-grid">
                                     <div class="t-input-group">
                                         <label>NITROGEN [Ratio]</label>
-                                        <input type="number" step="0.1" id="nitrogen" value="90" required>
+                                        <input type="number" step="0.1" min="0" max="300" id="nitrogen" value="90" required>
                                     </div>
                                     <div class="t-input-group">
                                         <label>PHOSPHOROUS [Ratio]</label>
-                                        <input type="number" step="0.1" id="phosphorous" value="42" required>
+                                        <input type="number" step="0.1" min="0" max="300" id="phosphorous" value="42" required>
                                     </div>
                                     <div class="t-input-group">
                                         <label>POTASSIUM [Ratio]</label>
-                                        <input type="number" step="0.1" id="potassium" value="43" required>
+                                        <input type="number" step="0.1" min="0" max="300" id="potassium" value="43" required>
                                     </div>
                                     <div class="t-input-group">
                                         <label>TEMPERATURE [°C]</label>
-                                        <input type="number" step="0.1" id="temperature" value="20.8" required>
+                                        <input type="number" step="0.1" min="0" max="60" id="temperature" value="20.8" required>
                                     </div>
                                     <div class="t-input-group">
                                         <label>HUMIDITY [%]</label>
-                                        <input type="number" step="0.1" id="humidity" value="82.0" required>
+                                        <input type="number" step="0.1" min="0" max="100" id="humidity" value="82.0" required>
                                     </div>
                                     <div class="t-input-group">
                                         <label>PH_LEVEL [0-14]</label>
-                                        <input type="number" step="0.1" id="ph" value="6.5" required>
+                                        <input type="number" step="0.1" min="0" max="14" id="ph" value="6.5" required>
                                     </div>
                                     <div class="t-input-group">
-                                        <label for="rainfall" class="terminal-prompt">INPUT_RAINFALL</label>
-                                        <input type="number" step="0.1" id="rainfall" placeholder="Rainfall (mm)" required class="terminal-input">
+                                        <label for="rainfall" class="terminal-prompt">INPUT_RAINFALL [mm]</label>
+                                        <input type="number" step="0.1" min="0" max="1000" id="rainfall" placeholder="e.g. 20 - 300 mm" required class="terminal-input">
                                     </div>
                                 </div>
                                 <button type="submit" class="terminal-btn" id="submit-btn">> EXECUTE inference_engine.exe</button>
@@ -334,6 +335,34 @@
             </div>
         </section>
 
+        <!-- 7. Project Team -->
+        <section id="team" class="section bespoke-section bg-alt">
+            <div class="bespoke-container">
+                <div class="section-title-side reveal-mask">
+                    <h2 class="serif-title">Project<br>Team</h2>
+                    <p class="section-meta">The engineers behind AgriSense.</p>
+                </div>
+                
+                <div class="content-side list-layout">
+                    <div class="academic-item reveal-mask">
+                        <h3 class="serif-title">Anand Kumar Mishra</h3>
+                        <p class="text-muted" style="color: #4ade80;"><strong>Technical & ML Lead</strong></p>
+                        <p class="text-muted mt-3">Architected the Machine Learning pipeline, implemented the Classifier Chains (Random Forest), handled model serialization, and developed the FastAPI backend for real-time inference.</p>
+                    </div>
+                    <div class="academic-item reveal-mask">
+                        <h3 class="serif-title">Aditya Jaiswal</h3>
+                        <p class="text-muted" style="color: #4ade80;"><strong>Data & Domain Expert</strong></p>
+                        <p class="text-muted mt-3">Sourced and validated agricultural datasets, mapped District-level agroclimatic zones, handled data sanitization, and ensured the ML model's output aligns with real-world agronomy.</p>
+                    </div>
+                    <div class="academic-item reveal-mask">
+                        <h3 class="serif-title">Jasleen Kaur</h3>
+                        <p class="text-muted" style="color: #4ade80;"><strong>UI/UX & Frontend Lead</strong></p>
+                        <p class="text-muted mt-3">Designed the dynamic web portal, managed frontend-backend API integration, engineered the Top-3 prediction layout, and ensured intuitive accessibility for end-users (farmers).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <footer class="editorial-footer">
@@ -343,6 +372,6 @@
         </div>
     </footer>
 
-    <script src="index.js?v=5"></script>
+    <script src="index.js?v=7"></script>
 </body>
 </html>

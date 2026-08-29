@@ -42,3 +42,4 @@ venv/
 *.hdf5
 *.pkl
 *soil-nutrient-analysis.csv*
+.env

@@ -145,12 +145,72 @@ function executeInference() {
         return response.json();
     })
     .then((responseData) => {
-        const predictedCrop = responseData["result"];
+        const predictedCrops = responseData["result"];
+        const cropsHtml = predictedCrops.map((c, i) => `#${i+1} ${c.crop.toUpperCase()} ${c.confidence}%`).join('<br>');
         setTimeout(() => {
             terminalOutput.innerHTML = `
-                > PROCESS COMPLETED.<br>
-                > OPTIMAL CROP CLASSIFICATION: <strong style="color: #fff; font-size: 1.2rem; text-transform: uppercase;">${predictedCrop}</strong>
+<div style="color: #8b949e; margin-bottom: 5px;">7-PARAMETER INPUT</div>
+N: ${data.nitrogen}<br>
+P: ${data.phosphorous}<br>
+K: ${data.potassium}<br>
+Temperature: ${data.temperature}°C<br>
+Humidity: ${data.humidity}%<br>
+pH: ${data.ph}<br>
+Rainfall: ${data.rainfall} mm<br><br>
+
+<div style="color: #8b949e; margin-bottom: 5px;">RANDOM FOREST OUTPUT</div>
+<strong style="color: #4ade80; font-size: 1.2rem;">${cropsHtml}</strong><br><br>
+<div id="ai-explanation" style="color: #ffbd2e; font-style: italic;">> [AI ASSISTANT GENERATING EXPLANATION...]</div>
+<div id="xai-plots" style="color: #ffbd2e; font-style: italic;">> [GENERATING EXPLAINABLE AI PLOTS...]</div>
             `;
+            
+            // Fetch AI Explanation
+            fetch("http://127.0.0.1:8000/explain/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    crop: predictedCrops[0].crop,
+                    nitrogen: data.nitrogen, phosphorous: data.phosphorous, potassium: data.potassium,
+                    temperature: data.temperature, humidity: data.humidity, ph: data.ph, rainfall: data.rainfall
+                })
+            })
+            .then(res => res.json())
+            .then(explainData => {
+                const aiDiv = document.getElementById("ai-explanation");
+                if(aiDiv) {
+                    aiDiv.innerHTML = `<div style="color: #8b949e; margin-bottom: 5px; margin-top: 10px;">GEMINI AI ASSISTANT</div><span style="color: #58a6ff;">${explainData.explanation}</span>`;
+                }
+            })
+            .catch(err => {
+                const aiDiv = document.getElementById("ai-explanation");
+                if(aiDiv) aiDiv.innerHTML = `<span style="color: #f85149;">> [AI EXPLANATION FAILED]</span>`;
+            });
+            
+            // Fetch XAI Plots
+            fetch("http://127.0.0.1:8000/explain_plots/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    crop: predictedCrops[0].crop,
+                    nitrogen: data.nitrogen, phosphorous: data.phosphorous, potassium: data.potassium,
+                    temperature: data.temperature, humidity: data.humidity, ph: data.ph, rainfall: data.rainfall
+                })
+            })
+            .then(res => res.json())
+            .then(plotData => {
+                const xaiDiv = document.getElementById("xai-plots");
+                if(xaiDiv && plotData.shap_base64) {
+                    xaiDiv.innerHTML = `<div style="color: #8b949e; margin-bottom: 5px; margin-top: 10px;">EXPLAINABLE AI (SHAP)</div>
+<img src="data:image/png;base64,${plotData.shap_base64}" style="max-width: 100%; border: 1px solid #30363d; border-radius: 6px; margin-top: 10px;">`;
+                } else if(xaiDiv) {
+                    xaiDiv.innerHTML = "";
+                }
+            })
+            .catch(err => {
+                const xaiDiv = document.getElementById("xai-plots");
+                if(xaiDiv) xaiDiv.innerHTML = `<span style="color: #f85149;">> [XAI PLOTS FAILED]</span>`;
+            });
+            
         }, 800);
     })
     .catch((error) => {
@@ -187,22 +247,86 @@ function executeRegionalInference() {
         return response.json();
     })
     .then((responseData) => {
-        const crop = responseData["crop"];
+        const crops = responseData["crop"];
         const validated = responseData["validated"];
         const temp = responseData["live_temp"];
         const hum = responseData["live_humidity"];
+        const soil = responseData["soil_data"];
         
         setTimeout(() => {
             let validationMsg = validated ? 
-                `<span style="color: #4ade80;">[REGION VALIDATED - GROWN HISTORICALLY]</span>` : 
-                `<span style="color: #ffbd2e;">[THEORETICAL MATCH - NOT COMMON IN THIS REGION]</span>`;
+                `<span style="color: #4ade80;">> [REGION VALIDATED - GROWN HISTORICALLY]</span>` : 
+                `<span style="color: #ffbd2e;">> [MODEL PREDICTION - MAY NOT BE LOCALLY TRADITIONAL]</span>`;
+
+            const cropsHtml = crops.map((c, i) => `#${i+1} ${c.crop.toUpperCase()} ${c.confidence}%`).join('<br>');
 
             terminalOutput.innerHTML = `
-                > LIVE WEATHER FETCHED: Temp: ${temp}°C, Humidity: ${hum}%<br>
-                > PROCESS COMPLETED.<br>
-                > OPTIMAL CROP CLASSIFICATION: <strong style="color: #fff; font-size: 1.2rem; text-transform: uppercase;">${crop}</strong><br>
-                > ${validationMsg}
+<div style="color: #8b949e; margin-bottom: 5px;">LOCATION</div>
+<strong style="color: #fff;">${data.district.toUpperCase()}, ${data.state.toUpperCase()}</strong><br><br>
+
+<div style="color: #8b949e; margin-bottom: 5px;">7-PARAMETER INPUT</div>
+N: ${soil.N}<br>
+P: ${soil.P}<br>
+K: ${soil.K}<br>
+Temperature: ${temp}°C<br>
+Humidity: ${hum}%<br>
+pH: ${soil.pH}<br>
+Rainfall: ${soil.Rainfall} mm<br><br>
+
+<div style="color: #8b949e; margin-bottom: 5px;">RANDOM FOREST OUTPUT</div>
+<strong style="color: #4ade80; font-size: 1.2rem;">${cropsHtml}</strong><br><br>
+${validationMsg}<br><br>
+<div id="ai-explanation" style="color: #ffbd2e; font-style: italic;">> [AI ASSISTANT GENERATING EXPLANATION...]</div>
+<div id="xai-plots" style="color: #ffbd2e; font-style: italic;">> [GENERATING EXPLAINABLE AI PLOTS...]</div>
             `;
+            
+            // Fetch AI Explanation
+            fetch("http://127.0.0.1:8000/explain/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    crop: crops[0].crop,
+                    nitrogen: soil.N, phosphorous: soil.P, potassium: soil.K,
+                    temperature: temp, humidity: hum, ph: soil.pH, rainfall: soil.Rainfall
+                })
+            })
+            .then(res => res.json())
+            .then(explainData => {
+                const aiDiv = document.getElementById("ai-explanation");
+                if(aiDiv) {
+                    aiDiv.innerHTML = `<div style="color: #8b949e; margin-bottom: 5px; margin-top: 10px;">GEMINI AI ASSISTANT</div><span style="color: #58a6ff;">${explainData.explanation}</span>`;
+                }
+            })
+            .catch(err => {
+                const aiDiv = document.getElementById("ai-explanation");
+                if(aiDiv) aiDiv.innerHTML = `<span style="color: #f85149;">> [AI EXPLANATION FAILED]</span>`;
+            });
+            
+            // Fetch XAI Plots
+            fetch("http://127.0.0.1:8000/explain_plots/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    crop: crops[0].crop,
+                    nitrogen: soil.N, phosphorous: soil.P, potassium: soil.K,
+                    temperature: temp, humidity: hum, ph: soil.pH, rainfall: soil.Rainfall
+                })
+            })
+            .then(res => res.json())
+            .then(plotData => {
+                const xaiDiv = document.getElementById("xai-plots");
+                if(xaiDiv && plotData.shap_base64) {
+                    xaiDiv.innerHTML = `<div style="color: #8b949e; margin-bottom: 5px; margin-top: 10px;">EXPLAINABLE AI (SHAP)</div>
+<img src="data:image/png;base64,${plotData.shap_base64}" style="max-width: 100%; border: 1px solid #30363d; border-radius: 6px; margin-top: 10px;">`;
+                } else if(xaiDiv) {
+                    xaiDiv.innerHTML = "";
+                }
+            })
+            .catch(err => {
+                const xaiDiv = document.getElementById("xai-plots");
+                if(xaiDiv) xaiDiv.innerHTML = `<span style="color: #f85149;">> [XAI PLOTS FAILED]</span>`;
+            });
+
         }, 800);
     })
     .catch((error) => {

@@ -8,6 +8,21 @@ import pickle
 import pandas as pd
 import numpy as np
 import geopandas as gpd
+import os
+from dotenv import load_dotenv
+import google.generativeai as genai
+from utils.explainer import generate_shap_plot_base64
+import pickle
+
+load_dotenv()
+api_key = os.getenv("GEMINI_API_KEY")
+if api_key:
+    genai.configure(api_key=api_key)
+
+with open("outputmodel1/crop_recommendation_rf_model.pkl", "rb") as file:
+    rf_model_for_shap = pickle.load(file)
+with open("outputmodel1/crop_recommendation_scaler.pkl", "rb") as file:
+    scaler_for_shap = pickle.load(file)
 
 # Load the exported regional models
 try:
@@ -72,7 +87,7 @@ async def predict(inputs: Inputs):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-    return {"result": prediction[0]}
+    return {"result": prediction}
 
 class RegionalInputs(BaseModel):
     state: str
@@ -143,8 +158,11 @@ class HybridInputs(BaseModel):
 
 # Pre-load features for hybrid model
 try:
-    feature_df = pd.read_csv('model2/data/processed/feature_table.csv')
-    district_features = feature_df.groupby(['State', 'District'])[['NITROGEN', 'PHOSPHOROUS', 'POTASSIUM', 'PH', 'avgann_rf']].median().reset_index()
+    feature_df = pd.read_csv('model2/data/processed/feature_table.csv', low_memory=False)
+    cols = ['NITROGEN', 'PHOSPHOROUS', 'POTASSIUM', 'PH', 'avgann_rf']
+    for col in cols:
+        feature_df[col] = pd.to_numeric(feature_df[col], errors='coerce')
+    district_features = feature_df.groupby(['State', 'District'])[cols].median().reset_index()
     district_features.set_index(['State', 'District'], inplace=True)
     
     # Pre-load historical crops for validation
@@ -194,7 +212,7 @@ async def predict_hybrid(inputs: HybridInputs):
         ph_raw = district_features.loc[(state, district), 'PH']
         rf_raw = district_features.loc[(state, district), 'avgann_rf']
     else:
-        n_raw, p_raw, k_raw, ph_raw, rf_raw = 1.0, 1.0, 1.0, 1.0, 150.0
+        raise HTTPException(status_code=400, detail=f"Invalid Region: '{district}' does not exist in '{state}'. Please verify spelling.")
         
     # Heuristic scaling for 7-parameter model
     n_val = 90.0 if n_raw > 1.5 else (50.0 if n_raw > 0.5 else 20.0)
@@ -205,20 +223,70 @@ async def predict_hybrid(inputs: HybridInputs):
     
     # 3. Predict using high-accuracy Model 1
     try:
-        prediction = pred_crop.predict_crop(n_val, p_val, k_val, temp, hum, ph_val, rf_val)
-        recommended_crop = prediction[0]
+        recommended_crops = pred_crop.predict_crop(n_val, p_val, k_val, temp, hum, ph_val, rf_val, top_k=3)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Model 1 Prediction Failed: {e}")
         
     # 4. Regional Validation
     valid_crops = historical_crops.get((state, district), [])
-    # Case insensitive validation check
-    is_validated = recommended_crop.upper() in [c.upper() for c in valid_crops]
+    valid_crops_upper = [str(c).upper() for c in valid_crops if str(c).lower() != 'nan']
+    
+    # Check if the #1 recommended crop is historically validated
+    is_validated = recommended_crops[0]["crop"].upper() in valid_crops_upper
     
     return {
-        "crop": recommended_crop,
+        "crop": recommended_crops,
         "validated": is_validated,
         "live_temp": temp,
         "live_humidity": hum,
         "soil_data": {"N": n_val, "P": p_val, "K": k_val, "pH": ph_val, "Rainfall": rf_val}
     }
+
+class ExplainInputs(BaseModel):
+    crop: str
+    nitrogen: float
+    phosphorous: float
+    potassium: float
+    temperature: float
+    humidity: float
+    ph: float
+    rainfall: float
+
+@app.post("/explain/")
+async def explain_recommendation(inputs: ExplainInputs):
+    if not os.getenv("GEMINI_API_KEY"):
+        return {"explanation": "Gemini API key is not configured. Unable to provide AI explanation."}
+        
+    try:
+        model = genai.GenerativeModel('gemini-3.6-flash')
+        prompt = (
+            f"You are an AI Agricultural Assistant. A Random Forest model has recommended the crop '{inputs.crop}' "
+            f"based on soil (N={inputs.nitrogen}, P={inputs.phosphorous}, K={inputs.potassium}, pH={inputs.ph}) "
+            f"and weather (Temp={inputs.temperature}C, Humidity={inputs.humidity}%, Rain={inputs.rainfall}mm). "
+            f"Explain to a farmer in simple terms why this crop is suitable for these conditions, "
+            f"and give 2 brief tips for farming it. Keep it under 4 sentences."
+        )
+        response = model.generate_content(prompt)
+        return {"explanation": response.text}
+    except Exception as e:
+        print(f"Gemini API Error: {e}")
+        return {"explanation": "AI explanation is temporarily unavailable."}
+
+@app.post("/explain_plots/")
+async def explain_plots(inputs: ExplainInputs):
+    try:
+        feature_values = [
+            inputs.nitrogen, inputs.phosphorous, inputs.potassium, 
+            inputs.temperature, inputs.humidity, inputs.ph, inputs.rainfall
+        ]
+        feature_names = ['Nitrogen', 'Phosphorous', 'Potassium', 'Temperature', 'Humidity', 'pH', 'Rainfall']
+        
+        shap_b64 = generate_shap_plot_base64(rf_model_for_shap, scaler_for_shap, feature_values, feature_names)
+        
+        return {
+            "shap_base64": shap_b64,
+            "lime_base64": None
+        }
+    except Exception as e:
+        print(f"Explain Plots Error: {e}")
+        return {"shap_base64": None, "lime_base64": None}

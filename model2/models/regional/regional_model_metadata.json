@@ -1,0 +1,36 @@
+{
+    "model_name": "RandomForest",
+    "model_type": "Classification",
+    "training_date": "2026-08-24",
+    "target_definition": "Crop Classification",
+    "feature_names": [
+        "State",
+        "District",
+        "Season",
+        "NITROGEN",
+        "PHOSPHOROUS",
+        "POTASSIUM",
+        "PH",
+        "avgtmp_jan",
+        "avgtmp_jul",
+        "avgann_rf",
+        "ANNUAL",
+        "Jun-Sep"
+    ],
+    "training_year_range": "1997-2013",
+    "validation_year_range": "2014",
+    "test_year_range": "2015",
+    "top1_accuracy": 0.16755793226381463,
+    "top3_accuracy": 0.47593582887700536,
+    "precision": 0.15672308726555598,
+    "recall": 0.16755793226381463,
+    "f1": 0.09839507101963797,
+    "source_datasets": [
+        "crop_production",
+        "soil-nutrient-analysis",
+        "district wise rainfall",
+        "agroclimatic regions"
+    ],
+    "preprocessing_version": "1.0",
+    "random_seed": 42
+}

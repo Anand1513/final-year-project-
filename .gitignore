@@ -38,3 +38,7 @@ catboost_info/
 .Trashes
 ehthumbs.db
 Thumbs.db
+venv/
+*.hdf5
+*.pkl
+*soil-nutrient-analysis.csv*

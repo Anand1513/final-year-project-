@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Recommendation | Academic Research</title>
+    <!-- Fonts: Playfair Display for academic/editorial feel, Inter for data readability -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css?v=6">
+</head>
+<body>
+
+    <!-- Central SVG Timeline Line -->
+    <div class="scroll-timeline-container">
+        <svg class="scroll-timeline-svg" preserveAspectRatio="none">
+            <line x1="50%" y1="0" x2="50%" y2="100%" class="timeline-base"></line>
+            <line x1="50%" y1="0" x2="50%" y2="100%" class="timeline-progress" id="scroll-line"></line>
+        </svg>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                Crop<span>Analysis.</span>
+            </div>
+            <div class="nav-links">
+                <a href="#hero" class="nav-link">Introduction</a>
+                <a href="#overview" class="nav-link">Research</a>
+                <a href="#recommendation" class="nav-link">Prototype Model</a>
+                <a href="#academic" class="nav-link">Contributions</a>
+                <button id="viva-mode-btn" class="btn btn-outline">Presentation Mode</button>
+            </div>
+            <div class="mobile-menu-btn">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <!-- 1. Hero Section (Animated Slideshow) -->
+        <section id="hero" class="hero" style="background-color: #111;">
+            <div class="slideshow">
+                <div class="slide slide-1"></div>
+                <div class="slide slide-2"></div>
+                <div class="slide slide-3"></div>
+                <div class="slide slide-4"></div>
+            </div>
+            <div class="hero-video-wrapper">
+                <div class="hero-overlay"></div>
+            </div>
+            
+            <div class="hero-content reveal-mask">
+                <div class="thesis-header">B.Tech Final Year Project</div>
+                <h1 class="serif-title">Crop Recommendation<br><em>via</em> Machine Learning</h1>
+                <p class="hero-abstract">
+                    An academic exploration transitioning a 7-parameter environmental model into a practical agricultural decision-support interface.
+                </p>
+                <div class="scroll-indicator">
+                    <span>Explore Research</span>
+                    <div class="scroll-line"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Project Overview (Asymmetric) -->
+        <section id="overview" class="section bespoke-section">
+            <div class="bespoke-container">
+                <div class="section-title-side reveal-mask">
+                    <h2 class="serif-title">Project<br>Overview</h2>
+                    <p class="section-meta">From conceptualization to a working predictive prototype.</p>
+                </div>
+                
+                <div class="content-side asymmetric-grid">
+                    <!-- Block 1 -->
+                    <div class="story-block reveal-mask offset-right">
+                        <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?q=80&w=1000&auto=format&fit=crop" alt="Agricultural Data" class="story-img">
+                        <span class="block-num mt-3">01</span>
+                        <h3 class="serif-title">Why We Chose This Topic</h3>
+                        <p>Crop selection depends heavily on localized agricultural and environmental conditions. Farmers often rely on generalized regional advice or intuition, which can lead to suboptimal yields. We selected this problem because it presents a clear opportunity to apply data-driven classification algorithms to formulate a scientific recommendation system.</p>
+                    </div>
+                    
+                    <!-- Block 2 -->
+                    <div class="story-block reveal-mask">
+                        <span class="block-num">02</span>
+                        <h3 class="serif-title">The Problem Definition</h3>
+                        <p>The core objective is to accurately map a specific set of soil and environmental parameters to the historically most successful crop for those exact conditions. The current system accomplishes this using a trained machine learning classifier evaluated across seven distinct input features.</p>
+                    </div>
+                    
+                    <!-- Block 3 -->
+                    <div class="story-block reveal-mask offset-right">
+                        <span class="block-num">03</span>
+                        <h3 class="serif-title">Methodological Evolution</h3>
+                        <div class="editorial-list">
+                            <span>Concept & Dataset Research</span>
+                            <span>Data Cleaning & Preprocessing</span>
+                            <span>Feature Engineering (7 Parameters)</span>
+                            <span>Model Training & Evaluation</span>
+                            <span>Best Model Selection</span>
+                            <span class="highlight-item">Working Recommendation Prototype</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Block 4 -->
+                    <div class="story-block reveal-mask">
+                        <img src="https://images.unsplash.com/photo-1589923188900-85dae523342b?q=80&w=1000&auto=format&fit=crop" alt="Future Portal" class="story-img">
+                        <span class="block-num mt-3">04</span>
+                        <h3 class="serif-title">Future Trajectory</h3>
+                        <p>While the machine learning core is established, the long-term vision is the development of a fully integrated farmer-oriented portal. This planned system will abstract the raw parameters, allowing users to select their state and district, and automatically cross-reference real-time weather and soil mapping APIs.</p>
+                        <span class="status-tag future">Future Scope</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Development Timeline (Phased) -->
+        <section id="timeline" class="section bespoke-section bg-alt">
+            <div class="bespoke-container">
+                <div class="section-title-side reveal-mask">
+                    <h2 class="serif-title">Development<br>Phases</h2>
+                </div>
+                
+                <div class="content-side">
+                    <div class="phase-list">
+                        
+                        <div class="phase-item reveal-mask completed">
+                            <div class="phase-meta">
+                                <h4>Phase I</h4>
+                                <span class="status-tag completed">Completed</span>
+                            </div>
+                            <div class="phase-body">
+                                <h3 class="serif-title">Research & ML Foundation</h3>
+                                <p>Extensive literature review, dataset identification, and rigorous data preprocessing. We experimented with various classifiers, ultimately evaluating Random Forest as the optimal algorithm for this specific 7-parameter classification task.</p>
+                            </div>
+                        </div>
+
+                        <div class="phase-item reveal-mask completed">
+                            <div class="phase-meta">
+                                <h4>Phase II</h4>
+                                <span class="status-tag completed">Completed</span>
+                            </div>
+                            <div class="phase-body">
+                                <h3 class="serif-title">Model Validation & Prototype</h3>
+                                <p>Finalization of the 7-parameter dataset structure. The model was trained, saved as an artifact, and connected to an API backend to form the basis of the current functional recommendation prototype presented below.</p>
+                            </div>
+                        </div>
+
+                        <div class="phase-item reveal-mask pending">
+                            <div class="phase-meta">
+                                <h4>Phase III</h4>
+                                <span class="status-tag pending">In Progress</span>
+                            </div>
+                            <div class="phase-body">
+                                <h3 class="serif-title">Application Development</h3>
+                                <p>The transition from a raw machine learning experiment to a complete, district-aware farmer portal. This includes UI mockups, state/district automated mapping, and mobile-responsive access.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Interactive Prototype (Scientific Terminal Style) -->
+        <section id="recommendation" class="section bespoke-section">
+            <div class="bespoke-container">
+                <div class="section-title-side reveal-mask">
+                    <h2 class="serif-title">Prediction<br>Prototype</h2>
+                    <p class="section-meta">Interface for the 7-parameter Random Forest model.</p>
+                </div>
+                
+                <div class="content-side">
+                    <div class="terminal-wrapper reveal-mask">
+                        <div class="terminal-header">
+                            <div class="terminal-dots">
+                                <span></span><span></span><span></span>
+                            </div>
+                            <div class="terminal-title">inference_engine.exe</div>
+                        </div>
+                        <div class="terminal-body">
+                            <div class="terminal-intro">
+                                > INITIALIZING MODEL: Random Forest Classifier<br>
+                                > LOADED FEATURES: Nitrogen, Phosphorous, Potassium, Temperature, Humidity, pH, Rainfall<br>
+                                > AWAITING INPUT PARAMETERS...
+                            </div>
+                    
+                            <!-- Mode Toggle -->
+                            <div class="mode-toggle">
+                                <button id="mode-npk" class="mode-btn active" type="button">> SCIENTIFIC_MODE (NPK)</button>
+                                <button id="mode-regional" class="mode-btn" type="button">> FARMER_MODE (REGION)</button>
+                            </div>
+
+                            <form id="prediction-form" class="terminal-form mt-4">
+                                <div class="terminal-grid">
+                                    <div class="t-input-group">
+                                        <label>NITROGEN [Ratio]</label>
+                                        <input type="number" step="0.1" id="nitrogen" value="90" required>
+                                    </div>
+                                    <div class="t-input-group">
+                                        <label>PHOSPHOROUS [Ratio]</label>
+                                        <input type="number" step="0.1" id="phosphorous" value="42" required>
+                                    </div>
+                                    <div class="t-input-group">
+                                        <label>POTASSIUM [Ratio]</label>
+                                        <input type="number" step="0.1" id="potassium" value="43" required>
+                                    </div>
+                                    <div class="t-input-group">
+                                        <label>TEMPERATURE [°C]</label>
+                                        <input type="number" step="0.1" id="temperature" value="20.8" required>
+                                    </div>
+                                    <div class="t-input-group">
+                                        <label>HUMIDITY [%]</label>
+                                        <input type="number" step="0.1" id="humidity" value="82.0" required>
+                                    </div>
+                                    <div class="t-input-group">
+                                        <label>PH_LEVEL [0-14]</label>
+                                        <input type="number" step="0.1" id="ph" value="6.5" required>
+                                    </div>
+                                    <div class="t-input-group">
+                                        <label for="rainfall" class="terminal-prompt">INPUT_RAINFALL</label>
+                                        <input type="number" step="0.1" id="rainfall" placeholder="Rainfall (mm)" required class="terminal-input">
+                                    </div>
+                                </div>
+                                <button type="submit" class="terminal-btn" id="submit-btn">> EXECUTE inference_engine.exe</button>
+                            </form>
+
+                            <!-- Regional Form (Hidden by default) -->
+                            <form id="regional-form" class="terminal-form" style="display: none;">
+                                <div class="form-group">
+                                    <label for="state" class="terminal-prompt">INPUT_STATE</label>
+                                    <input type="text" id="state" placeholder="e.g., Uttar Pradesh" required class="terminal-input">
+                                </div>
+                                <div class="form-group">
+                                    <label for="district" class="terminal-prompt">INPUT_DISTRICT</label>
+                                    <input type="text" id="district" placeholder="e.g., Agra" required class="terminal-input">
+                                </div>
+                                <button type="submit" class="terminal-btn" id="submit-regional-btn">> EXECUTE regional_inference.exe</button>
+                            </form>
+
+                            <div id="loading" class="terminal-loading" style="display: none;"></div>
+                            <div id="terminal-output" class="terminal-output hidden">
+                                <!-- JS will populate output -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="technical-explanation mt-5 reveal-mask">
+                        <h4 class="serif-title">Inference Workflow</h4>
+                        <p class="mt-3 text-muted">The model is trained independently and saved as an artifact. This interface does not retrain the model; instead, the application backend loads the saved model upon initialization. When you execute inference, the backend formats the 7 input features into an array and passes it to the saved model, which returns the highest probability crop recommendation.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Evaluation Results -->
+        <section id="results" class="section bespoke-section bg-alt">
+            <div class="bespoke-container">
+                <div class="section-title-side reveal-mask">
+                    <h2 class="serif-title">Evaluation<br>Metrics</h2>
+                    <p class="section-meta">Classifier performance on validation sets.</p>
+                </div>
+                
+                <div class="content-side">
+                    <div class="results-table-wrapper reveal-mask">
+                        <table class="editorial-table">
+                            <thead>
+                                <tr>
+                                    <th>Classification Model</th>
+                                    <th>Accuracy Score</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="highlight-row">
+                                    <td><strong>Random Forest</strong> (Selected)</td>
+                                    <td class="mono">99.77%</td>
+                                </tr>
+                                <tr>
+                                    <td>CatBoost</td>
+                                    <td class="mono">99.32%</td>
+                                </tr>
+                                <tr>
+                                    <td>XGBoost</td>
+                                    <td class="mono">98.86%</td>
+                                </tr>
+                                <tr>
+                                    <td>LightGBM</td>
+                                    <td class="mono">98.86%</td>
+                                </tr>
+                                <tr>
+                                    <td>Extra Trees</td>
+                                    <td class="mono">89.32%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="caption mt-3">Table 1.0 &mdash; Performance comparison of evaluated machine learning classifiers on the 7-parameter test dataset. Detailed precision, recall, and F1-scores are documented in the primary research notebook.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Academic Contributions -->
+        <section id="academic" class="section bespoke-section">
+            <div class="bespoke-container">
+                <div class="section-title-side reveal-mask">
+                    <h2 class="serif-title">Academic<br>Contributions</h2>
+                    <p class="section-meta">Research documentation and publications.</p>
+                </div>
+                
+                <div class="content-side list-layout">
+                    <div class="academic-item reveal-mask">
+                        <h3 class="serif-title">Research Paper</h3>
+                        <p class="text-muted"><strong>Title:</strong> An Explainable Machine Learning Framework for Precision Agriculture: Multi-Model Evaluation and Transparent AI-Driven Crop Recommendation</p>
+                        <p class="text-muted mt-3"><strong>Authors:</strong> Anand Kumar Mishra, Jasleen Kaur, Aditya Jaiswal</p>
+                    </div>
+                    <div class="academic-item reveal-mask">
+                        <h3 class="serif-title">Conference Proceedings</h3>
+                        <p class="text-muted">Presented at the <strong>7th International Conference on Data Analytics and Management (ICDAM - 2026)</strong></p>
+                        <p class="text-muted mt-3">Organized jointly by London Metropolitan University (UK), WSG University (Poland), Portalegre Polytechnic University (Portugal), & SGGW Management Institute (Poland).</p>
+                    </div>
+                    <div class="academic-item reveal-mask">
+                        <h3 class="serif-title">Certifications</h3>
+                        <p class="text-muted">Awarded Presenter/Co-Author Certificates by Springer & ICDAM.</p>
+                        <p class="text-muted mt-3">Date: 12th &ndash; 14th June 2026</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="editorial-footer">
+        <div class="footer-content">
+            <h2 class="serif-title">Crop Recommendation System</h2>
+            <p>B.Tech Final Year Project &copy; 2026</p>
+        </div>
+    </footer>
+
+    <script src="index.js?v=5"></script>
+</body>
+</html>

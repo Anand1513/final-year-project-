@@ -1,0 +1,173 @@
+# Regional Data Audit
+
+## soil-nutrient-analysis.csv
+- **Rows:** 10853209
+- **Columns:** 14
+- **Schema:**
+  - `id` (int64)
+  - `year` (str)
+  - `state_name` (str)
+  - `state_code` (int64)
+  - `district_name` (str)
+  - `district_code` (int64)
+  - `block_name` (str)
+  - `block_code` (int64)
+  - `village_name` (str)
+  - `village_code` (int64)
+  - `nutrient_type` (str)
+  - `nutrient_name` (str)
+  - `nutrient_level` (str)
+  - `value` (int64)
+- **Missing Values:**
+- **Duplicates:** 0
+
+## district wise rainfall normal.csv
+- **Rows:** 641
+- **Columns:** 19
+- **Schema:**
+  - `STATE_UT_NAME` (str)
+  - `DISTRICT` (str)
+  - `JAN` (float64)
+  - `FEB` (float64)
+  - `MAR` (float64)
+  - `APR` (float64)
+  - `MAY` (float64)
+  - `JUN` (float64)
+  - `JUL` (float64)
+  - `AUG` (float64)
+  - `SEP` (float64)
+  - `OCT` (float64)
+  - `NOV` (float64)
+  - `DEC` (float64)
+  - `ANNUAL` (float64)
+  - `Jan-Feb` (float64)
+  - `Mar-May` (float64)
+  - `Jun-Sep` (float64)
+  - `Oct-Dec` (float64)
+- **Missing Values:**
+- **Duplicates:** 0
+
+## crop_production.csv
+- **Rows:** 246091
+- **Columns:** 7
+- **Schema:**
+  - `State_Name` (str)
+  - `District_Name` (str)
+  - `Crop_Year` (int64)
+  - `Season` (str)
+  - `Crop` (str)
+  - `Area` (float64)
+  - `Production` (float64)
+- **Missing Values:**
+  - `Production`: 3730
+- **Duplicates:** 0
+
+## ICRISAT-District Level Data.csv
+- **Rows:** 12418
+- **Columns:** 80
+- **Schema:**
+  - `Dist Code` (int64)
+  - `Year` (int64)
+  - `State Code` (int64)
+  - `State Name` (str)
+  - `Dist Name` (str)
+  - `RICE AREA (1000 ha)` (float64)
+  - `RICE PRODUCTION (1000 tons)` (float64)
+  - `RICE YIELD (Kg per ha)` (float64)
+  - `WHEAT AREA (1000 ha)` (float64)
+  - `WHEAT PRODUCTION (1000 tons)` (float64)
+  - `WHEAT YIELD (Kg per ha)` (float64)
+  - `KHARIF SORGHUM AREA (1000 ha)` (float64)
+  - `KHARIF SORGHUM PRODUCTION (1000 tons)` (float64)
+  - `KHARIF SORGHUM YIELD (Kg per ha)` (float64)
+  - `RABI SORGHUM AREA (1000 ha)` (float64)
+  - `RABI SORGHUM PRODUCTION (1000 tons)` (float64)
+  - `RABI SORGHUM YIELD (Kg per ha)` (float64)
+  - `SORGHUM AREA (1000 ha)` (float64)
+  - `SORGHUM PRODUCTION (1000 tons)` (float64)
+  - `SORGHUM YIELD (Kg per ha)` (float64)
+  - `PEARL MILLET AREA (1000 ha)` (float64)
+  - `PEARL MILLET PRODUCTION (1000 tons)` (float64)
+  - `PEARL MILLET YIELD (Kg per ha)` (float64)
+  - `MAIZE AREA (1000 ha)` (float64)
+  - `MAIZE PRODUCTION (1000 tons)` (float64)
+  - `MAIZE YIELD (Kg per ha)` (float64)
+  - `FINGER MILLET AREA (1000 ha)` (float64)
+  - `FINGER MILLET PRODUCTION (1000 tons)` (float64)
+  - `FINGER MILLET YIELD (Kg per ha)` (float64)
+  - `BARLEY AREA (1000 ha)` (float64)
+  - `BARLEY PRODUCTION (1000 tons)` (float64)
+  - `BARLEY YIELD (Kg per ha)` (float64)
+  - `CHICKPEA AREA (1000 ha)` (float64)
+  - `CHICKPEA PRODUCTION (1000 tons)` (float64)
+  - `CHICKPEA YIELD (Kg per ha)` (float64)
+  - `PIGEONPEA AREA (1000 ha)` (float64)
+  - `PIGEONPEA PRODUCTION (1000 tons)` (float64)
+  - `PIGEONPEA YIELD (Kg per ha)` (float64)
+  - `MINOR PULSES AREA (1000 ha)` (float64)
+  - `MINOR PULSES PRODUCTION (1000 tons)` (float64)
+  - `MINOR PULSES YIELD (Kg per ha)` (float64)
+  - `GROUNDNUT AREA (1000 ha)` (float64)
+  - `GROUNDNUT PRODUCTION (1000 tons)` (float64)
+  - `GROUNDNUT YIELD (Kg per ha)` (float64)
+  - `SESAMUM AREA (1000 ha)` (float64)
+  - `SESAMUM PRODUCTION (1000 tons)` (float64)
+  - `SESAMUM YIELD (Kg per ha)` (float64)
+  - `RAPESEED AND MUSTARD AREA (1000 ha)` (float64)
+  - `RAPESEED AND MUSTARD PRODUCTION (1000 tons)` (float64)
+  - `RAPESEED AND MUSTARD YIELD (Kg per ha)` (float64)
+  - `SAFFLOWER AREA (1000 ha)` (float64)
+  - `SAFFLOWER PRODUCTION (1000 tons)` (float64)
+  - `SAFFLOWER YIELD (Kg per ha)` (float64)
+  - `CASTOR AREA (1000 ha)` (float64)
+  - `CASTOR PRODUCTION (1000 tons)` (float64)
+  - `CASTOR YIELD (Kg per ha)` (float64)
+  - `LINSEED AREA (1000 ha)` (float64)
+  - `LINSEED PRODUCTION (1000 tons)` (float64)
+  - `LINSEED YIELD (Kg per ha)` (float64)
+  - `SUNFLOWER AREA (1000 ha)` (float64)
+  - `SUNFLOWER PRODUCTION (1000 tons)` (float64)
+  - `SUNFLOWER YIELD (Kg per ha)` (float64)
+  - `SOYABEAN AREA (1000 ha)` (float64)
+  - `SOYABEAN PRODUCTION (1000 tons)` (float64)
+  - `SOYABEAN YIELD (Kg per ha)` (float64)
+  - `OILSEEDS AREA (1000 ha)` (float64)
+  - `OILSEEDS PRODUCTION (1000 tons)` (float64)
+  - `OILSEEDS YIELD (Kg per ha)` (float64)
+  - `SUGARCANE AREA (1000 ha)` (float64)
+  - `SUGARCANE PRODUCTION (1000 tons)` (float64)
+  - `SUGARCANE YIELD (Kg per ha)` (float64)
+  - `COTTON AREA (1000 ha)` (float64)
+  - `COTTON PRODUCTION (1000 tons)` (float64)
+  - `COTTON YIELD (Kg per ha)` (float64)
+  - `FRUITS AREA (1000 ha)` (float64)
+  - `VEGETABLES AREA (1000 ha)` (float64)
+  - `FRUITS AND VEGETABLES AREA (1000 ha)` (float64)
+  - `POTATOES AREA (1000 ha)` (float64)
+  - `ONION AREA (1000 ha)` (float64)
+  - `FODDER AREA (1000 ha)` (float64)
+- **Missing Values:**
+- **Duplicates:** 0
+
+## Agroclimatic_regions/Agroclimatic_regions.shp
+- **Rows:** 15
+- **Columns:** 14
+- **Schema:**
+  - `objectid` (int64)
+  - `regioncode` (int64)
+  - `regionname` (str)
+  - `state` (str)
+  - `avgtmp_jan` (str)
+  - `avgtmp_jul` (str)
+  - `avgann_rf` (str)
+  - `soil` (str)
+  - `majorcrops` (str)
+  - `remarks` (str)
+  - `area_ha` (str)
+  - `shape_Leng` (float64)
+  - `shape_Area` (float64)
+  - `geometry` (geometry)
+- **Missing Values:**
+  - `remarks`: 8
+- **Duplicates:** 0
+

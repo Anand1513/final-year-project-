@@ -1,0 +1,7 @@
+Model 2 Evaluation Metrics
+==========================
+Accuracy: 0.6342
+Jaccard: 0.8994
+Precision: 0.9431
+Recall: 0.9437
+F1 Score: 0.9434
